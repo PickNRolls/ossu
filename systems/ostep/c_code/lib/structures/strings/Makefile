@@ -11,7 +11,7 @@ $(TARGET) : $(OBJ)
 	$(CC) -c -Wall -Werror $< -o $@
 
 clean :
-	rm $(TARGET) $(OBJ)
+	rm -f $(TARGET) $(OBJ)
 
 test : clean $(TARGET)
 	./$(TARGET)
