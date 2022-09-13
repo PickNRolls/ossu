@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#include "../../../../../minunit/minunit.h"
+#include "../../../../../../minunit/minunit.h"
 
 MU_TEST(string_create_empty_test) {
   string_t* string = string_create("", 1);
