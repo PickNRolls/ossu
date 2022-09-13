@@ -1,8 +1,17 @@
-strings.test : strings.test.o strings.o
-	gcc -Wall -Werror strings.test.o strings.o -o strings.test
+TARGET = strings.test
+CC = gcc
 
-strings.test.o : strings.test.c
-	gcc -c -Wall -Werror strings.test.c -o strings.test.o
+SRC = strings.c strings.test.c
+OBJ = $(patsubst %.c, %.o, $(SRC))
 
-strings.o : strings.c
-	gcc -c -Wall -Werror strings.c -o strings.o
+$(TARGET) : $(OBJ)
+	$(CC) -Wall -Werror $(OBJ) -o $(TARGET)
+
+%.o : %.c
+	$(CC) -c -Wall -Werror $< -o $@
+
+clean :
+	rm $(TARGET) $(OBJ)
+
+test : clean $(TARGET)
+	./$(TARGET)
