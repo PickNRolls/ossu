@@ -4,16 +4,19 @@
 #ifndef LIB_STRUCTURES_STRINGS_H
 #define LIB_STRUCTURES_STRINGS_H
 typedef struct string_struct {
-  char* pointer;
   size_t length;
   size_t capacity;
+  char data[];
 } string_t;
 
-string_t* string_create(char* pointer, size_t capacity);
+string_t* string_create(char* data, size_t capacity);
 void string_dispose(string_t** pointer);
 void string_dispose_n(string_t** strings, size_t length);
-void string_resize(string_t* string, size_t capacity);
+string_t* string_resize(string_t* string, size_t capacity);
 char string_includes(string_t* string, string_t* search_string);
+char string_equal_null_terminated(string_t* string, char* pointer,
+                                  size_t pointer_length);
+char string_equal(string_t* left_string, string_t* right_string);
 string_t* string_concat(string_t* left_string, string_t* right_string);
 string_t* string_concat_n(string_t** strings, size_t length);
 void string_once_spaces(string_t* string);
