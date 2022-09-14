@@ -347,3 +347,16 @@ char string_starts_with_char(string_t* string, char c) {
 
   return string->data[0] == c;
 }
+
+char* string_to_null_terminated(string_t* string) {
+  char* pointer = malloc(string->length + 1);
+  size_t string_length = string->length;
+  char* data = string->data;
+  size_t index = 0;
+  while (index < string_length) {
+    pointer[index] = data[index];
+    index++;
+  }
+  pointer[index] = 0;
+  return pointer;
+}
