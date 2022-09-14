@@ -339,3 +339,11 @@ char string_equal(string_t* left_string, string_t* right_string) {
   return string_internal_equal(left_string, right_string->data,
                                right_string->length);
 }
+
+char string_starts_with_char(string_t* string, char c) {
+  if (!string->length) {
+    return 0;
+  }
+
+  return string->data[0] == c;
+}

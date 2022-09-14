@@ -502,6 +502,29 @@ MU_TEST_SUITE(string_join_char_test_suite) {
   MU_RUN_TEST(string_join_char_empty_buffer_test);
 }
 
+MU_TEST(string_starts_with_char_starts_test) {
+  string_t* string = string_create("Hello", 5);
+  char starts_with_h = string_starts_with_char(string, 'H');
+
+  mu_check(starts_with_h);
+
+  string_dispose(&string);
+}
+
+MU_TEST(string_starts_with_char_does_not_start_test) {
+  string_t* string = string_create("Hello", 5);
+  char starts_with_d = string_starts_with_char(string, 'D');
+
+  mu_check(!starts_with_d);
+
+  string_dispose(&string);
+}
+
+MU_TEST_SUITE(string_starts_with_char_test_suite) {
+  MU_RUN_TEST(string_starts_with_char_starts_test);
+  MU_RUN_TEST(string_starts_with_char_does_not_start_test);
+}
+
 int main(int argc, char* argv[]) {
   MU_RUN_SUITE(string_equal_null_terminated_test_suite);
   MU_RUN_SUITE(string_create_test_suite);
@@ -515,6 +538,7 @@ int main(int argc, char* argv[]) {
   MU_RUN_SUITE(string_trim_end_test_suite);
   MU_RUN_SUITE(string_trim_test_suite);
   MU_RUN_SUITE(string_join_char_test_suite);
+  MU_RUN_SUITE(string_starts_with_char_test_suite);
   MU_REPORT();
   return MU_EXIT_CODE;
 }

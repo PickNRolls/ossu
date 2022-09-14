@@ -25,4 +25,5 @@ void string_trim_start(string_t* string);
 void string_trim_end(string_t* string);
 void string_trim(string_t* string);
 string_t* string_join_char(string_t** strings, size_t length, char separator);
+char string_starts_with_char(string_t* string, char c);
 #endif
