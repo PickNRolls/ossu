@@ -10,6 +10,8 @@ typedef struct string_struct {
 } string_t;
 
 string_t* string_create(char* data, size_t capacity);
+void string_set_char(string_t* string, char* data, size_t length);
+void string_set(string_t* dest, string_t* src);
 void string_dispose(string_t** pointer);
 void string_dispose_n(string_t** strings, size_t length);
 string_t* string_resize(string_t* string, size_t capacity);

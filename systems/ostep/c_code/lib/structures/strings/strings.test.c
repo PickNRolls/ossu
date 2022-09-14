@@ -552,6 +552,72 @@ MU_TEST_SUITE(string_to_null_terminated_test_suite) {
   MU_RUN_TEST(string_to_null_terminated_existing_test);
 }
 
+MU_TEST(string_set_char_existing_test) {
+  string_t* string = string_create("Hello World!", 12);
+  char data[] = "Just hello";
+  size_t data_size = sizeof(data) - 1;
+  string_set_char(string, data, data_size);
+
+  mu_check(string_equal_null_terminated(string, data, data_size));
+  mu_check(string->length == data_size);
+}
+
+MU_TEST(string_set_char_empty_test) {
+  string_t* string = string_create("Hello", 5);
+  string_set_char(string, "", 0);
+
+  mu_check(string_equal_null_terminated(string, "", 0));
+  mu_check(string->length == 0);
+}
+
+MU_TEST(string_set_char_bigger_than_capacity_test) {
+  string_t* string = string_create("Hello", 5);
+  string_set_char(string, "Hello world!", 12);
+
+  mu_check(string_equal_null_terminated(string, "Hello", 5));
+  mu_check(string->length == 5);
+  mu_check(string->capacity == 5);
+}
+
+MU_TEST_SUITE(string_set_char_test_suite) {
+  MU_RUN_TEST(string_set_char_existing_test);
+  MU_RUN_TEST(string_set_char_empty_test);
+  MU_RUN_TEST(string_set_char_bigger_than_capacity_test);
+}
+
+MU_TEST(string_set_existing_test) {
+  string_t* dest = string_create("Hello world!", 12);
+  string_t* src = string_create("Test", 4);
+  string_set(dest, src);
+
+  mu_check(string_equal(dest, src));
+  mu_check(dest->length == 4);
+}
+
+MU_TEST(string_set_empty_test) {
+  string_t* dest = string_create("Hello world!", 12);
+  string_t* src = string_create("", 0);
+  string_set(dest, src);
+
+  mu_check(string_equal(dest, src));
+  mu_check(dest->length == 0);
+}
+
+MU_TEST(string_set_bigger_than_capacity_test) {
+  string_t* dest = string_create("Hell", 4);
+  string_t* src = string_create("Testing", 7);
+  string_set(dest, src);
+
+  mu_check(string_equal_null_terminated(dest, "Test", 4));
+  mu_check(dest->length == 4);
+}
+
+MU_TEST_SUITE(string_set_test_suite) {
+  MU_RUN_TEST(string_set_existing_test);
+  MU_RUN_TEST(string_set_empty_test);
+  MU_RUN_TEST(string_set_bigger_than_capacity_test);
+}
+
 int main(int argc, char* argv[]) {
   MU_RUN_SUITE(string_equal_null_terminated_test_suite);
   MU_RUN_SUITE(string_create_test_suite);
@@ -567,6 +633,8 @@ int main(int argc, char* argv[]) {
   MU_RUN_SUITE(string_join_char_test_suite);
   MU_RUN_SUITE(string_starts_with_char_test_suite);
   MU_RUN_SUITE(string_to_null_terminated_test_suite);
+  MU_RUN_SUITE(string_set_char_test_suite);
+  MU_RUN_SUITE(string_set_test_suite);
   MU_REPORT();
   return MU_EXIT_CODE;
 }

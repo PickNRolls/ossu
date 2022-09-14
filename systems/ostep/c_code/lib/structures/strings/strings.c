@@ -44,6 +44,25 @@ string_t* string_create(char* data, size_t capacity) {
   return result;
 }
 
+void string_internal_set(string_t* dest, char* data, size_t length) {
+  size_t index = 0;
+  size_t dest_capacity = dest->capacity;
+  char* dest_data = dest->data;
+  while ((index < length && index < dest_capacity) || data[index] != 0) {
+    dest_data[index] = data[index];
+    index++;
+  }
+  dest->length = length > dest_capacity ? dest_capacity : length;
+}
+
+void string_set_char(string_t* string, char* data, size_t length) {
+  return string_internal_set(string, data, length);
+}
+
+void string_set(string_t* dest, string_t* src) {
+  return string_internal_set(dest, src->data, src->length);
+}
+
 string_t* string_resize(string_t* string, size_t capacity) {
   if (!capacity || capacity == string->capacity) {
     return 0;
