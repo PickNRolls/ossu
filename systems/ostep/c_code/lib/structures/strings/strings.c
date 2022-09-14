@@ -232,6 +232,7 @@ string_t** string_split_char(string_t* string, char c, size_t* buffer_length) {
   string_t* end_string = string_create(data + current_start_index,
                                        string_length - current_start_index);
   buffer[buffer_ret_length - 1] = end_string;
+  buffer = realloc(buffer, sizeof(string_t*) * buffer_ret_length);
   *buffer_length = buffer_ret_length;
   return buffer;
 }
