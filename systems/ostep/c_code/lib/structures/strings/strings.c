@@ -80,8 +80,8 @@ string_t* string_resize(string_t* string, size_t capacity) {
   return string;
 }
 
-string_t* string_copy(string_t* string) {
-  return string_create(string->data, string->capacity);
+string_t* string_duplicate(string_t* string, size_t capacity) {
+  return string_create(string->data, capacity);
 }
 
 size_t strings_disposed = 0;
@@ -149,7 +149,7 @@ char string_includes(string_t* string, string_t* search_string) {
 }
 
 string_t* string_concat(string_t* left_string, string_t* right_string) {
-  string_t* result = string_copy(left_string);
+  string_t* result = string_duplicate(left_string, left_string->capacity);
   if (result->capacity < result->length + right_string->length) {
     result = string_resize(result, result->length + right_string->length);
   }
@@ -180,10 +180,10 @@ string_t* string_concat_n(string_t* strings[], size_t length) {
   }
 
   if (length == 1) {
-    return string_copy(strings[0]);
+    return string_duplicate(strings[0], strings[0]->capacity);
   }
 
-  string_t* result_string = string_copy(strings[0]);
+  string_t* result_string = string_duplicate(strings[0], strings[0]->capacity);
   size_t index = 1;
   while (index < length) {
     string_t* prev_string = result_string;
@@ -305,7 +305,7 @@ string_t* string_join_char(string_t** strings, size_t length, char separator) {
   }
 
   if (length == 1) {
-    return string_copy(strings[0]);
+    return string_duplicate(strings[0], strings[0]->capacity);
   }
 
   char separator_null_terminated[2] = {separator, 0};
@@ -367,6 +367,14 @@ char string_starts_with_char(string_t* string, char c) {
   return string->data[0] == c;
 }
 
+char string_ends_with_char(string_t* string, char c) {
+  if (!string->length) {
+    return 0;
+  }
+
+  return string->data[string->length - 1] == c;
+}
+
 char* string_to_null_terminated(string_t* string) {
   char* pointer = malloc(string->length + 1);
   size_t string_length = string->length;
@@ -378,4 +386,39 @@ char* string_to_null_terminated(string_t* string) {
   }
   pointer[index] = 0;
   return pointer;
+}
+
+void string_append(string_t* dest, string_t* src) {
+  size_t dest_length = dest->length;
+  size_t dest_capacity = dest->capacity;
+  if (dest_length == dest_capacity) {
+    return;
+  }
+
+  size_t src_length = src->length;
+  size_t dest_remaning_capacity = dest_capacity - dest_length;
+  char* dest_data = dest->data;
+  char* src_data = src->data;
+  size_t index = 0;
+  while (index < src_length && index < dest_remaning_capacity) {
+    dest_data[dest_length + index] = src_data[index];
+    index++;
+  }
+
+  if (index == src_length) {
+    dest->length += src_length;
+  } else {
+    dest->length = dest->capacity;
+  }
+}
+
+void string_append_char(string_t* dest, char c) {
+  size_t dest_length = dest->length;
+  size_t dest_capacity = dest->capacity;
+  if (dest_length == dest_capacity) {
+    return;
+  }
+
+  dest->data[dest_length] = c;
+  dest->length++;
 }
