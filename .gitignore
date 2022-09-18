@@ -3,3 +3,5 @@ minunit
 **/*.test
 **/*.debug
 systems/ostep/c_code/msh/msh
+**/*/#*#
+**/*/.#*
