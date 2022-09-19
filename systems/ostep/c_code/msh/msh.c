@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     if (length == -1) {
       exit(1);
     }
-    if (!length) {
+    if (!length || length == 1) {
       continue;
     }
 
