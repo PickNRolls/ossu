@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
   size_t paths_length = 1;
   if (!paths) {
     fprintf(stderr, "failed to allocate memory for paths\n");
-    goto prepare_to_exit;
+    exit(1);
   }
   paths[0] = string_create("/bin/", 5);
 
@@ -28,10 +28,6 @@ int main(int argc, char* argv[]) {
   string_t* bye_command = string_create("bye", 3);
   string_t* path_command = string_create("path", 4);
   string_t* cd_command = string_create("cd", 2);
-  string_t* pwd_command = string_create("pwd", 3);
-  string_t* available_commands[] = {exit_command, bye_command, path_command,
-                                    cd_command, pwd_command};
-  char do_exit = 0;
 
   while (1) {
     printf("msh> ");
@@ -58,7 +54,7 @@ int main(int argc, char* argv[]) {
 
     if (string_equal(command_string, exit_command) ||
         string_equal(command_string, bye_command)) {
-      do_exit = 1;
+      exit(0);
     } else if (string_equal(command_string, cd_command)) {
       if (arguments_length != 1) {
         fprintf(stderr, "usage: cd <path>\n");
@@ -81,7 +77,7 @@ int main(int argc, char* argv[]) {
         paths = realloc(paths, sizeof(string_t*) * arguments_length);
         if (!paths) {
           fprintf(stderr, "failed to reallocate memory for paths\n");
-          goto prepare_to_exit;
+	  exit(1);
         }
         paths_length = arguments_length;
         size_t index = 0;
@@ -151,15 +147,7 @@ int main(int argc, char* argv[]) {
     string_dispose_n(space_substrings, space_substrings_length);
     free(space_substrings);
     string_dispose(&string);
-    if (do_exit) {
-      goto prepare_to_exit;
-    }
   }
 
-prepare_to_exit:
-  string_dispose_n(available_commands,
-                   sizeof(available_commands) / sizeof(string_t*));
-  string_dispose_n(paths, paths_length);
-  string_dispose(&command_not_found_string);
   return 0;
 }
