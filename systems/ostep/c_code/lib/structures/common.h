@@ -1,0 +1,12 @@
+#ifndef LIB_STRUCTURES_COMMON_H
+#define LIB_STRUCTURES_COMMON_H
+enum ss_status {
+  SS_OK = 0,
+
+  SS_ERR_ALLOC = 1,
+  SS_ERR_INVALID_CAPACITY = 2,
+  SS_ERR_OUT_OF_RANGE = 3,
+  SS_ERR_MAX_CAPACITY = 4,
+};
+#endif
+
