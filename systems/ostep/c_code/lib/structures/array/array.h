@@ -19,7 +19,7 @@ size_t array_capacity(array_t* array);
 
 enum ss_status array_get_at(array_t* array, size_t index, void** out);
 enum ss_status array_get_last(array_t* array, void** out);
-enum ss_status get_first(array_t* array, void** out);
+enum ss_status array_get_first(array_t* array, void** out);
 
 enum ss_status array_replace_at(array_t* array, size_t index, void* pointer);
 enum ss_status array_replace_last(array_t* array, void* pointer);

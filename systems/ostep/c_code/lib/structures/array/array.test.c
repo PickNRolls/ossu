@@ -69,17 +69,17 @@ MU_TEST(array_add_at_multiple_test) {
   array_add_at(array, 1, &j);
   array_add_at(array, 2, &k);
 
-  void* out_0 = 0;
-  void* out_1 = 0;
-  void* out_2 = 0;
+  size_t* out_0 = 0;
+  size_t* out_1 = 0;
+  size_t* out_2 = 0;
 
-  array_get_at(array, 0, &out_0);
-  array_get_at(array, 1, &out_1);
-  array_get_at(array, 2, &out_2);
+  array_get_at(array, 0, (void*) &out_0);
+  array_get_at(array, 1, (void*) &out_1);
+  array_get_at(array, 2, (void*) &out_2);
 
-  mu_check(*(size_t*)out_0 == 10);
-  mu_check(*(size_t*)out_1 == 20);
-  mu_check(*(size_t*)out_2 == 30);
+  mu_check(*out_0 == 10);
+  mu_check(*out_1 == 20);
+  mu_check(*out_2 == 30);
   mu_check(array_length(array) == 3);
 }
 
@@ -94,17 +94,17 @@ MU_TEST(array_add_at_shift_test) {
   array_add_at(array, 0, &j);
   array_add_at(array, 0, &k);
 
-  void* out_0 = 0;
-  void* out_1 = 0;
-  void* out_2 = 0;
+  size_t* out_0 = 0;
+  size_t* out_1 = 0;
+  size_t* out_2 = 0;
 
-  array_get_at(array, 0, &out_0);
-  array_get_at(array, 1, &out_1);
-  array_get_at(array, 2, &out_2);
+  array_get_at(array, 0,(void*) &out_0);
+  array_get_at(array, 1,(void*) &out_1);
+  array_get_at(array, 2,(void*) &out_2);
 
-  mu_check(*(size_t*)out_0 == 30);
-  mu_check(*(size_t*)out_1 == 20);
-  mu_check(*(size_t*)out_2 == 10);
+  mu_check(*out_0 == 30);
+  mu_check(*out_1 == 20);
+  mu_check(*out_2 == 10);
 }
 
 MU_TEST(array_add_at_max_capacity_test) {

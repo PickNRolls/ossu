@@ -2,7 +2,6 @@
 #include "array.h"
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 enum ss_status array_create(size_t capacity, array_t** out) {
   if (capacity < 1) {
