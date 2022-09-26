@@ -3,6 +3,7 @@
 
 #ifndef LIB_STRUCTURES_STRINGS_H
 #define LIB_STRUCTURES_STRINGS_H
+
 typedef struct string_struct {
   size_t length;
   size_t capacity;
@@ -13,8 +14,8 @@ string_t* string_create(char* data, size_t capacity);
 void string_set_char(string_t* string, char* data, size_t length);
 void string_set(string_t* dest, string_t* src);
 string_t* string_duplicate(string_t* string, size_t capacity);
-void string_dispose(string_t** pointer);
-void string_dispose_n(string_t** strings, size_t length);
+void string_destroy(string_t** pointer);
+void string_destroy_n(string_t** strings, size_t length);
 string_t* string_resize(string_t* string, size_t capacity);
 char string_includes(string_t* string, string_t* search_string);
 char string_equal_null_terminated(string_t* string, char* pointer,
@@ -33,4 +34,6 @@ char string_ends_with_char(string_t* string, char c);
 void string_append(string_t* dest, string_t* src);
 void string_append_char(string_t* dest, char c);
 char* string_to_null_terminated(string_t* string);
+
 #endif
+

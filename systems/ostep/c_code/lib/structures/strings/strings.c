@@ -84,8 +84,8 @@ string_t* string_duplicate(string_t* string, size_t capacity) {
   return string_create(string->data, capacity);
 }
 
-size_t strings_disposed = 0;
-void string_dispose(string_t** p) {
+size_t strings_destroyed = 0;
+void string_destroy(string_t** p) {
   if (!p) {
     return;
   }
@@ -98,10 +98,10 @@ void string_dispose(string_t** p) {
   *p = 0;
   free(string);
 
-  strings_disposed++;
+  strings_destroyed++;
   if (debug_mode) {
     printf(
-        "string_dispose:\n"
+        "string_destroy:\n"
         "String pointer: \"%p\"\n"
         "Char pointer: \"%p\"\n"
         "\n",
@@ -109,9 +109,9 @@ void string_dispose(string_t** p) {
   }
 }
 
-void string_dispose_n(string_t** strings, size_t length) {
+void string_destroy_n(string_t** strings, size_t length) {
   while (length) {
-    string_dispose(&strings[length - 1]);
+    string_destroy(&strings[length - 1]);
     length--;
   }
 }
@@ -188,7 +188,7 @@ string_t* string_concat_n(string_t* strings[], size_t length) {
   while (index < length) {
     string_t* prev_string = result_string;
     result_string = string_concat(result_string, strings[index]);
-    string_dispose(&prev_string);
+    string_destroy(&prev_string);
     index++;
   }
   return result_string;
